@@ -1,0 +1,24 @@
+.body
+{
+	background-color: #caabf8;
+}
+.margin-top
+{
+	margin-top: 5px;
+}
+.no-margin
+{
+margin:0px; 	
+}
+.no-padding
+{ 
+	padding:0px; 
+}
+.footer
+{
+	background-color: #7c6fe6;
+	color: blue;
+    width: 100%;
+    bottom: 0;
+    position: fixed;
+}
