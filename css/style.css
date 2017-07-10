@@ -1,7 +1,11 @@
-.body
-{
-	background-color: #caabf8;
+
+body {
+  background: radial-gradient(circle, antiquewhite, pink, blueviolet);
 }
+.col{
+	background: linear-gradient(transparent, blueviolet, transparent);
+}
+
 .margin-top
 {
 	margin-top: 5px;
