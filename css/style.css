@@ -1,9 +1,12 @@
 
 body {
-  background: radial-gradient(circle, antiquewhite, pink, blueviolet);
+  background-color: radial-gradient(circle, antiquewhite, pink, blueviolet);
+}
+.trs {
+    background: rgba(76, 175, 80, 0.5) /* Green background with 30% opacity */
 }
 .col{
-	background: linear-gradient(transparent, blueviolet, transparent);
+	background: linear-gradient(transparent, transparent, transparent);
 }
 
 .margin-top
