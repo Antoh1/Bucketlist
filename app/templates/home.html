@@ -1,46 +1,20 @@
-<!doctype html>
-<html>
-    <head>
-    	<meta charset="utf-8">
-    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	    <title>Bucketlist | App</title>
-	    <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/style.css" rel="stylesheet">
-        <link rel="apple-touch-icon" sizes="152x152" href="images/favicons/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png">
-        <link rel="manifest" href="images/favicons/manifest.json">
-        <link rel="mask-icon" href="images/favicons/safari-pinned-tab.svg" color="#5bbad5">
-        <meta name="theme-color" content="#ffffff">
-    </head>
- <body class="body" background="images/bg2.jpg">
- <div class="container-fluid">
- 	<nav class="navbar navbar-default" role="navigation">
-    		
+{% extends "base.html" %}
 
-        <div class="container-fluid ">
-    			<div class="navbar-header ">
-    				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-TSM-navbar-collapse-1" aria-expanded="false">
-		                <span class="sr-only">Toggle navigation</span>
-		                <span class="icon-bar"></span>
-		                <span class="icon-bar"></span>
-		                <span class="icon-bar"></span>
-                   </button>
-    			   <a class="navbar-brand" href="#">BucketlistApp</a>
-    		    </div>
+{% block signin %}<li><a href="{{url_for('signin')}}">Sign In</a></li>{% endblock %}
+{% block signup %}<li><a href="{{url_for('signup')}}">Sign Up</a></li>{% endblock %}
+{% block bucketlist %}<li><a href="{{url_for('bucketlist')}}">Bucketlists</a></li>{% endblock %}
+{% block logout %}{% if user %}<li><a href="/logout">Signout</a></li>{% endif %}{% endblock %}
 
-    		    <div class="collapse navbar-collapse navbar-right" id="bs-TSM-navbar-collapse-1">
-    			    <ul class="nav navbar-nav nav-tabs">
-    				    <li><a href="signin.html">Sign In</a></li>
-    				    <li><a href="signup.html">Sign Up</a></li>
-                        <li><a href="bucketlists.html">Bucketlists</a></li>  
-    				</ul>
-    		    </div>
-    	
-        </div>
-    </nav>
-    <div class="row">
-    <section class="row jumbotron col-lg-9 col-lg-offset-2 trs"><h1>The Ultimate Bucketlist App</h1><br>
+{% block content%}
+<div class="row">
+    <div class="col-lg-offset-2 col-lg-9">
+             {% with messages = get_flashed_messages() %}
+                            {% for message in messages %}
+                               <em>{{ message }}</em>
+                            {% endfor %}   
+                            {% endwith %} 
+    </div>
+    <div class="row jumbotron col-lg-9 col-lg-offset-2 trs"><h1>The Ultimate Bucketlist App</h1><br>
         <div class="well alert alert-primary alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <p>The Ultimate bucketlist app is an application that allows
@@ -48,19 +22,10 @@
                before reaching <br> a certain age meeting the needs of keeping track of their dreams and goals.</p>
         </div>
         <h2 align="center">You will be able to
-    	keep track of your Dreams and Goals<br><br>
-    	Kindly <a href="signin.html">Sign In</a> if you have an account or<br><br>
-        <a href="signup.html">Sign Up</a> to create an account</h2></section>
+        keep track of your Dreams and Goals<br><br>
+        Kindly <a href="/signin">Sign In</a> if you have an account or<br><br>
+        <a href="/signup">Sign Up</a> to create an account</h2>
+    
     </div>
-
-    
-    
-
-  </div>
-    <script src="js/jquery-3.2.1.min"></script>
-    <script src="js/bootstrap.min.js"></script>	
- </body>
- <footer class="footer">
-    	<p align="center"> &copy; copyright 2017<em> All Rights Reserved</em></p>
- </footer>
-</html>    
+</div>
+{% endblock %}
