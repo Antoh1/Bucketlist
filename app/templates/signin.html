@@ -3,17 +3,18 @@
 {% block home %}<li><a href="/">Home</a></li>{% endblock %}
 {% block signup %}<li><a href="{{url_for('signup')}}">Sign Up</a></li>{% endblock %}
 {% block content%} 
-<div class="panel panel-default col-lg-5 col-lg-offset-3 trs">
-    <div class="panel-heading trs">
-            {% with messages = get_flashed_messages() %}
+
+{% with messages = get_flashed_messages() %}
             {% for message in messages %}
-            <em>{{ message }}</em>
+            <div class="alert alert-info col-lg-7" role="alert"><em>{{ message }}</em></div>
             {% endfor %}   
             {% endwith %}    
+<div class="panel panel-default col-lg-5 col-lg-offset-3 trs">
+    <div class="panel-heading trs">
             <em><h2 class="panel-title">Log in Here</h2></em>
                             
         <div class="panel-body trs">
-        <form method="POST">
+        <form method="POST" action={{ url_for("signin")}} role="form">
             <div class="form-group">
                 <label for="InputEmail">Email Address</label>
                 <input type="email" class="form-control trs" id="InputEmail" placeholder="Enter Email" name="email">
