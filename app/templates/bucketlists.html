@@ -1,21 +1,88 @@
 {% extends 'base.html' %}
 
     		    
-{% block itemview %}<li><a href="/itemsview">View Items</a></li>{% endblock %}
 {% block logout %}<li><a href="/logout">Signout</a></li>{% endblock %}
 
 
-{% block content%}	
+{% block content %}	
 <div>
     <!-- button triggering the popup form for creating bucketlist-->
-<div class="center"><p><a class="btn btn-success" data-toggle="modal" data-target="#modal1"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp; Create New BucketList</a></p>
+    <div class="center"><p><a class="btn btn-success" data-toggle="modal" data-target="#modal1"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp; Create New BucketList</a></p>
+    </div>
+
+    <!-- bucketlists -->
+    <div>
+        <div class="col-sm-offset-2 col-sm-9">
+            <!-- flash messages for error information -->
+                 {% with messages = get_flashed_messages() %}
+                                {% for message in messages %}
+                                   <div class="alert alert-info col-lg-7" role="alert"><em>{{ message }}</em></div>
+                                {% endfor %}   
+                                {% endwith %} 
+        </div>
+        <!-- bucketlists display after creation -->
+            <div class="row">
+            {% for bname in buckets.keys() %}
+            <div class="jumbotron col-lg-5 col-sm-10 col-md-5 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1 trs">
+                <div class="trs">
+                    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                    <a data-toggle="modal" data-target="#modal{{bname}}" class="btn btn-info navbar-btn"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add Item</a>  
+                    </div>
+                    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                    <a href="{{ url_for('deletebucket', BucketName = bname)}}" class="btn btn-danger navbar-btn"><span class="glyphicon glyphicon-remove "></span>&nbsp;Delete Bucket</a>
+                    </div>
+                    
+                    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                    <a href="#" class="btn btn-warning navbar-btn"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Edit Bucket</a>  
+                    </div>
+                </div>    
+            
+                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 panel panel-infos trs">
+                        <h2>{{ bname }} Bucket</h2>
+                    
+                </div>
+
+                 <!-- The popup form for adding item to bucketlist -->
+                    <div class="modal fade" id="modal{{bname}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="panel-body trs modal-dialog trs">
+                        <div class="modal-content modal-popup trs">    
+                        <form method="POST" action={{ url_for("add_item", BucketName=bname) }} role="form">
+                                    <div class="form-group">
+                                        <label for="Inputitem">Add Your Item</label>
+                                        <input type="text" class="form-control" id="Inputitem" placeholder="Enter Item details" name="item">
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Submit</button>
+                        </form>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                    {% for item_dict in items.keys() %}
+                    <div class="list-group">
+                        {% if item_dict == bname %}
+                        {% for item in items[bname]['items'] %}
+                        <div>
+                        <div class="list-group-items col-lg-6 col-sm-6 col-md-6 col-xs-6">{{ item }}</div>
+                        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6"><span class="btn-group btn-group-xs"><a href="#" class="btn btn-danger">Delete &nbsp;<span class="glyphicon glyphicon-remove "></span></a></span><span class="btn-group btn-group-xs"><a href="#" class="btn btn-warning">Edit &nbsp;<span class="glyphicon glyphicon-pencil"></span></a></span>
+                        </div>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                    </div>            
+                    {% endfor %}
+                   </div>
+
+            </div>
+            {% endfor %}
+        </div>
 </div>
 
 <!-- The popup form for creating a bucketlist -->
 <div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="panel-body trs modal-dialog trs">
     <div class="modal-content modal-popup trs">    
-    <form method="POST" action={{ url_for("create_bucketlist")}} role="form">
+    <form method="POST" action={{ url_for("bucketlist")}} role="form">
                 <div class="form-group">
                     <label for="InputName">BucketList Name</label>
                     <input type="text" class="form-control" id="InputName" placeholder="Enter Bucketlist Name" name="bn">
@@ -30,32 +97,5 @@
     </div>
 </div>
 
-<!-- bucketlists -->
-<div>
-    <div class="col-lg-offset-2 col-lg-9">
-        <!-- flash messages for error information -->
-             {% with messages = get_flashed_messages() %}
-                            {% for message in messages %}
-                               <div class="alert alert-info col-lg-7" role="alert"><em>{{ message }}</em></div>
-                            {% endfor %}   
-                            {% endwith %} 
-    </div>
-    <!-- bucketlists display after creation -->
-    <div class="row">
-        {% for bucket in buckets %}
-        <div class="jumbotron col-lg-3 col-lg-offset-1 trs">    
-        <div class=""><h2>{{ bucket['BucketName'] }}</h2></br><a href="/itemsview" class="btn btn-primary">View Bucketlist Items</a>    
-        </div></br></br>
-        <div class="trs">
-            <ul class="nav navbar-nav nav-tabs trs">
-            <li><a href={{ url_for('deletebucket', BucketName = bucket['BucketName'])}} class="btn btn-danger pull-right">Delete &nbsp;<span class="glyphicon glyphicon-remove "></span></a></li>
-            <li><a href="#" class="btn btn-warning pull-right">Edit &nbsp;<span class="glyphicon glyphicon-pencil"></span></a></li>
-            </ul>        
-        </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
-</div>
 {% endblock %}
     
