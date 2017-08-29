@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+    <head>
+    	<meta charset="utf-8">
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <title>Bucketlist | App</title>
+	    <link href="{{url_for('static', filename='css/bootstrap.min.css')}}" rel="stylesheet">
+        <link href="{{url_for('static', filename='css/bootstrap-theme.min.css')}}" rel="stylesheet">
+        <link href="static/css/style.css" rel="stylesheet">
+        <link rel="apple-touch-icon" sizes="152x152" href="static/images/favicons/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="static/images/favicons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="static/images/favicons/favicon-16x16.png">
+        <link rel="manifest" href="static/images/favicons/manifest.json">
+        <link rel="mask-icon" href="static/images/favicons/safari-pinned-tab.svg" color="#5bbad5">
+        <meta name="theme-color" content="#ffffff">
+    </head>
+ <body class="body" background="{{url_for('static', filename='images/bg2.jpg')}}">
+ <div class="container-fluid">
+ 	<nav class="navbar navbar-default" role="navigation">
+    		
+
+        <div class="container-fluid ">
+    			<div class="navbar-header ">
+    				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-TSM-navbar-collapse-1" aria-expanded="true">
+		                <span class="sr-only">Toggle navigation</span>
+		                <span class="icon-bar"></span>
+		                <span class="icon-bar"></span>
+		                <span class="icon-bar"></span>
+                   </button>
+    			   <a class="navbar-brand" href="{{url_for('home')}}">BucketlistApp | Home</a>
+    		    </div>
+
+    		    <div class="collapse navbar-collapse navbar-right" id="bs-TSM-navbar-collapse-1">
+    			    <ul class="nav navbar-nav nav-tabs">
+                        {% block home %}{% endblock %}
+                        {% block signin %}{% endblock %}
+                        {% block signup %}{% endblock %}
+                        {% block bucketlist %}{% endblock %}
+                        {% block itemview %}{% endblock %}
+                        {% block logout %}{% endblock %}  
+    				</ul>
+    		    </div>
+    	
+        </div>
+    </nav>
+    
+    {% block content %}
+    {% endblock %}   
+  
+  </div>
+    <script src="static/js/jquery-3.2.1.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>	
+ </body>
+ <footer class="footer">
+    	<p align="center"> &copy; copyright 2017<em> All Rights Reserved</em></p>
+ </footer>
+</html>    
