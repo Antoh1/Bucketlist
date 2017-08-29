@@ -1,6 +1,6 @@
 {% extends 'base.html'%}
 
-{% block home %}<li><a href="/">Home</a></li>{% endblock %}
+{% block home %}<li><a href="{{url_for('home')}}">Home</a></li>{% endblock %}
 {% block signin %}<li><a href="{{url_for('signin')}}">Sign In</a></li>{% endblock %}
 {% block content%} 
 
@@ -9,7 +9,7 @@
         <em><h2 class="panel-title">Sign Up Here</h2></em>
                         
         <div class="panel-body trs">
-        <form method="POST" role="form">
+        <form method="POST" action={{ url_for("signup")}} role="form">
             <div class="form-group">
                 <label for="InputName">First Name</label>
                 <input type="text" class="form-control" id="InputFName" placeholder="Enter First Name" name="FN">
