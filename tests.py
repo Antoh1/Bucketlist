@@ -21,10 +21,10 @@ class bucketlistTestCases(unittest.TestCase):
 		tester = app.test_client(self)
 		response = tester.post(
 			'/signin',
-			data = dict(email='admin@gmail.com', password='admin'),
+			data = dict(email='admin@gmail.com', password='12'),
 			follow_redirects=True
 		)
-		self.assertTrue(b'View Bucketlist Items' in response.data)
+		self.assertTrue(b'Create New BucketList' in response.data)
 	
 	#Ensure that the signin page behaves correctly given incorrect credentials
 	def test_incorrect_signin(self):
