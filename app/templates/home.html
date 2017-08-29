@@ -1,7 +1,7 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block signin %}<li><a href="{{url_for('signin')}}">Sign In</a></li>{% endblock %}
-{% block signup %}<li><a href="{{url_for('signup')}}">Sign Up</a></li>{% endblock %}
+{% block signin %}{% if not user %}<li><a href="{{url_for('signin')}}">Sign In</a></li>{% endif %}{% endblock %}
+{% block signup %}{% if not user %}<li><a href="{{url_for('signup')}}">Sign Up</a></li>{% endif %}{% endblock %}
 {% block bucketlist %}<li><a href="{{url_for('bucketlist')}}">Bucketlists</a></li>{% endblock %}
 {% block logout %}{% if user %}<li><a href="/logout">Signout</a></li>{% endif %}{% endblock %}
 
@@ -10,7 +10,7 @@
     <div class="col-lg-offset-2 col-lg-9">
              {% with messages = get_flashed_messages() %}
                             {% for message in messages %}
-                               <em>{{ message }}</em>
+                               <div class="alert alert-info col-lg-7" role="alert"><em>{{ message }}</em></div>
                             {% endfor %}   
                             {% endwith %} 
     </div>
@@ -21,10 +21,13 @@
                users to record <br> and share things they want to achieve or experience 
                before reaching <br> a certain age meeting the needs of keeping track of their dreams and goals.</p>
         </div>
+        
+        {% if not user%}
         <h2 align="center">You will be able to
         keep track of your Dreams and Goals<br><br>
-        Kindly <a href="/signin">Sign In</a> if you have an account or<br><br>
-        <a href="/signup">Sign Up</a> to create an account</h2>
+        Kindly <a href="/signin"><i>Sign In</i></a> if you have an account or<br><br>
+        <a href="/signup"><i>Sign Up</i></a> to create an account</h2>
+        {% endif %}
     
     </div>
 </div>
