@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, url_for, request, session, redirect, abort, flash
+from flask import render_template, url_for, request, session, redirect, abort, flash, g
 
 
 #dictionary holding user credentials
@@ -12,7 +12,7 @@ NewBucket = Bucketlists()
 #defining the routes to various pages
 @app.route('/')
 def home():
-    user = session.get('email')
+    user = g.user
     return render_template("home.html", user = user)
 
 @app.route('/signup', methods = ['GET','POST'])
@@ -25,7 +25,7 @@ def signup():
         userReg = NewUser.register(Fname, Sname, email, pwd)
         if userReg == "Registration Successful":
             session['email'] = request.form['EM']
-            session['Fname'] = request.form['FN']
+            session['user'] = request.form['FN']
             return redirect(url_for('signin', ))
         else:
             flash('The Email is already in Use')
@@ -42,12 +42,12 @@ def signin():
         if userLog=="Login Successful" or (email =='admin@gmail.com' and password=='12'):
             if email=='admin@gmail.com':
                 session['email'] = request.form['email']
-                session['Fname'] = 'Admin'
-                return redirect(url_for('bucketlist'))
+                session['user'] = 'Admin'
+                return redirect(url_for("bucketlist"))
             else:
                 session['email'] = request.form['email']
-                session['Fname'] = NewUser.userInfo[email]['Fname']
-                return redirect(url_for('bucketlist'))    
+                session['user'] = NewUser.userInfo[email]['Fname']
+                return redirect(url_for("bucketlist"))    
         else:
             flash("Wrong Signin Credentials, Kindly confirm and signin again")
             return redirect(url_for('signin'))
@@ -55,9 +55,9 @@ def signin():
 
 @app.route('/logout')
 def logout():
-    if session.get('email'):
+    if g.user:
         session.pop('email')
-        session.pop('Fname')
+        session.pop('user')
         flash("You were Logged out successfully")
         return redirect(url_for('home'))
     flash("You are not signed in")
@@ -65,7 +65,7 @@ def logout():
 
 @app.route('/bucketlists', methods = ['GET', 'POST'])
 def bucketlist():
-    if session.get('email'):
+    if g.user:
         if request.method == 'POST':
             owner = session['email']
             name = request.form['bn']
@@ -119,3 +119,8 @@ def add_item(BucketName=None):
         flash("The Bucketlist does not exist")
         return redirect(url_for('bucketlist'))		
 
+@app.before_request
+def before_request():
+    g.user = None
+    if 'user' in session:
+        g.user = session['user']
