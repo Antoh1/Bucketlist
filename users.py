@@ -16,6 +16,5 @@ class User(object):
             return "Wrong Email"
         elif password!=self.userInfo[email]['Pwd']:
             return "Wrong Password"
-        for key in self.userInfo.keys():
-            if email==key and password==self.userInfo[key]['Pwd']:
-                return "Login Successful"
+        else:
+            return "Login Successful"
