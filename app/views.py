@@ -39,15 +39,15 @@ def signin():
         email = request.form['email']
         password = request.form['password']
         userLog = NewUser.login(email, password)
-        if userLog=="Login Successful" or (email =='admin@gmail.com' and password=='12'):
+        if userLog=="Login Successful":
             if email=='admin@gmail.com':
-                session['email'] = request.form['email']
+                session['email'] = email
                 session['user'] = 'Admin'
-                return redirect(url_for("bucketlist"))
+                return redirect(url_for("bucketlist", session=session))
             else:
                 session['email'] = request.form['email']
                 session['user'] = NewUser.userInfo[email]['Fname']
-                return redirect(url_for("bucketlist"))    
+                return redirect(url_for("bucketlist", session=session))    
         else:
             flash("Wrong Signin Credentials, Kindly confirm and signin again")
             return redirect(url_for('signin'))
@@ -88,7 +88,7 @@ def bucketlist():
             return render_template('bucketlists.html', user=user, buckets = Blists, items = items )
     else:
         flash("You are not authorized to view the page you tried to access, Signin first")
-        return redirect(url_for('home'))					
+        return redirect(url_for('home'))                    
 
 @app.route('/deletebucket/<BucketName>')
 def deletebucket(BucketName=None):
@@ -117,7 +117,7 @@ def add_item(BucketName=None):
             return redirect(url_for('bucketlist'))
     else:
         flash("The Bucketlist does not exist")
-        return redirect(url_for('bucketlist'))		
+        return redirect(url_for('bucketlist'))      
 
 @app.before_request
 def before_request():
